@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migurinth - A Better Modrinth Fork</title>
+    <link rel="icon" href="assets/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen">
+
+    <!-- Logo -->
+    <img src="assets/logo.webp" alt="Migurinth Logo" class="w-48 h-48 mb-4 rounded-lg">
+
+    <!-- Title -->
+    <h1 class="text-4xl font-bold">Migurinth</h1>
+    <p class="text-lg text-gray-400 mt-2">A privacy-friendly Modrinth fork with no telemetry and no ads.</p>
+
+    <!-- Download Button -->
+    <a id="download-btn" href="https://github.com/MiguVT/migurinth/releases/latest" target="_blank" 
+        class="mt-6 px-6 py-3 text-lg font-semibold bg-green-600 hover:bg-green-700 transition rounded-lg opacity-0 pointer-events-none">
+        Fetching latest version...
+    </a>
+
+    <!-- Footer -->
+    <footer class="absolute bottom-4 text-sm text-gray-500">
+        Not affiliated with Modrinth. <a href="https://github.com/MiguVT/migurinth" class="text-green-400 hover:underline">View on GitHub</a>
+    </footer>
+
+    <!-- Fetch Latest Release from GitHub -->
+    <script>
+        const btn = document.getElementById("download-btn");
+
+        fetch("https://api.github.com/repos/MiguVT/migurinth/releases/latest")
+            .then(response => {
+                if (!response.ok) throw new Error("GitHub API error");
+                return response.json();
+            })
+            .then(data => {
+                btn.href = data.html_url;
+                btn.textContent = "Download " + data.tag_name;
+            })
+            .catch(() => {
+                // Fallback if GitHub API fails
+                btn.href = "https://github.com/MiguVT/migurinth/releases/latest";
+                btn.textContent = "Download Latest";
+            })
+            .finally(() => {
+                // Make button visible in all cases (success or error)
+                btn.classList.remove("opacity-0", "pointer-events-none");
+            });
+    </script>
+
+</body>
+</html>
